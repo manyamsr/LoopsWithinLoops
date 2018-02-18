@@ -1,10 +1,9 @@
 """
 This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of TWO-DIMENSIONAL GRAPHICS.
-
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Sreekar Manyam.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 
@@ -58,20 +57,17 @@ def draw_L(window, circle, r, c):
     """
     See   L.pdf   in this project for pictures that may
     help you better understand the following specification:
-
     Draws an 'L' of circles on the given rg.RoseWindow.
       The 'column' part of the L should have r rows and 3 columns.
         (That is, it is r 'tall' and 3 'thick'.)
       The 'shared corner' part of the L should be 3 x 3.
       The 'row' part of the L should have c columns and 3 rows.
         (That is, it is c 'long' and 3 'thick'.)
-
       The given rg.Circle specifies:
       - The position of the upper-left circle drawn and also
       - The radius that all the circles have.
       - The fill_color that all the circles have.
     After drawing each circle, pauses briefly (0.1 second).
-
     Preconditions:
       :type window: rg.RoseWindow
       :type circle: rg.Circle
@@ -80,9 +76,33 @@ def draw_L(window, circle, r, c):
     and m and n are small, positive integers.
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # DONE: 2. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
+
+    original_x = circle.center.x
+    original_y = circle.center.y
+    radius = circle.radius
+    x = original_x
+    y = original_y
+    for k in range(r):
+        for j in range(3):
+            new_circle = rg.Circle(rg.Point(x, y), radius)
+            new_circle.fill_color = circle.fill_color
+            new_circle.attach_to(window)
+            window.render(0.1)
+            x += 2 * radius
+        x = original_x
+        y += 2 * radius
+    for k in range(3):
+        for j in range(c + 3):
+            new_circle = rg.Circle(rg.Point(x, y), radius)
+            new_circle.fill_color = circle.fill_color
+            new_circle.attach_to(window)
+            window.render(0.1)
+            x += 2 * radius
+        x = original_x
+        y += 2 * radius
 
 
 def run_test_draw_wall_on_right():
@@ -106,14 +126,12 @@ def draw_wall_on_right(rectangle, n, window):
     """
     See   Walls.pdf   in this project for pictures that may
     help you better understand the following specification:
-
     Draws an n x n RIGHT-justified triangle of rectangles
     (1 rectangle in the top row, 2 in the next row, etc., until n rows)
     on the given rg.RoseWindow.  The given rg.Rectangle specifies:
       - The position of the upper-right rectangle drawn and also
       - The width and height that all the rectangles have.
     After drawing each rectangle, pauses briefly (0.1 second).
-
     Preconditions:
       :type rectangle: rg.Rectangle
       :type n: int
@@ -121,12 +139,29 @@ def draw_wall_on_right(rectangle, n, window):
     and n is a small, positive integer.
     """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # DONE: 3. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
 
+    x = rectangle.get_upper_left_corner().x
+    y = rectangle.get_upper_left_corner().y
+    new_x = rectangle.get_lower_right_corner().x
+    new_y = rectangle.get_lower_right_corner().y
 
+    for j in range(n):
+        for k in range(j + 1):
+            rectangle1 = rg.Rectangle(rg.Point(x, y), rg.Point(new_x, new_y))
+            rectangle1.attach_to(window)
+            window.render(0.1)
+            x -= rectangle.get_width()
+            new_x -= rectangle.get_width()
+        x = rectangle.get_upper_left_corner().x
+        new_x = rectangle.get_lower_right_corner().x
+        y += rectangle.get_height()
+        new_y += rectangle.get_height()
 # ----------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # ----------------------------------------------------------------------
+
+
 main()
